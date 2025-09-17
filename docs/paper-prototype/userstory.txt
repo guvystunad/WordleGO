@@ -1,1 +1,11 @@
-here should be the user story for the paper prototype
+  USER STORIES
+
+US1: As a player I want to see a opening screen before I start playing so I can choose to play or look at my statistics.
+
+US2: As a player I want to see my location on the map as soon as I press the play button so I know where my starting point is.
+
+US3: As a player I want to see the locations of today's games on the map so I know where i need to go to play.
+
+US4: As a player I need a way to differentiate a playable game (that I'm close to) from other game locations so I know which games I am able to play in my location.
+
+US5: As a player I want to be able to log into my account so that my stats can be saved and I can look at them later on.
