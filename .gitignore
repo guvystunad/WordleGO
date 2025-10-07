@@ -1,0 +1,50 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# IDE files
+.idea/
+*.ipr
+*.iws
+.vscode/
+
+# OS files
+Thumbs.db
+
+# Binary / compiled files
+*.class
+*.jar
+*.apk
+*.dex
+*.so
+*.exe
+*.dll
+*.bin
+*.o
+*.a
+
+# Logs
+*.log
+
+# Generated sources
+captures/
+gen/
+out/
+intermediates/
