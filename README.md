@@ -16,10 +16,10 @@ No more waiting 24 hours for your next puzzle — but also, no endless scrolling
 
 | Name | GitHub Handle | Role / Contribution |
 |------|----------------|----------------------|
-| Anna-Liisa Jõgi | @guvystunad | [e.g., Project Lead / Android Developer] |
-| Eliise Alop | @eliiseal | [e.g., Game Logic & Backend Developer] |
-| Kairin Tammel | @kairintammel | [e.g., UI/UX Designer & Map Integration] |
-| Kim Lilii Tamm | [@github-handle] | [e.g., Gameplay Design & Word Puzzle Engine] |
+| Anna-Liisa Jõgi | @guvystunad | Project idea, requirements engineering  |
+| Eliise Alop | @eliiseal | UI/UX Design, requirements engineering  |
+| Kairin Tammel | @kairintammel | Composing README.md, prototype creation |
+| Kim Lilii Tamm | @KimLiliiTamm | Presentation and prototype creation |
 
 ---
 
@@ -46,9 +46,8 @@ In the world of WordleGO, every street corner could hide your next favorite word
 
 - **Language:** Kotlin  
 - **Platform:** Android  
-- **Mapping:** Google Maps API / OpenStreetMap  
-- **Backend:** Firebase / Node.js (TBD)  
-- **Word Generation:** Custom puzzle generator or external word API  
+- **Mapping:** Google Maps API 
+- **Word Generation:** external word API
 
 ---
 
@@ -56,8 +55,8 @@ In the world of WordleGO, every street corner could hide your next favorite word
 
 | Phase | Focus | Status |
 |-------|--------|---------|
-| Phase 1 | Concept Design + Prototyping | 🟡 In Progress |
-| Phase 2 | Core Gameplay + Map Integration | ⬜ Pending |
+| Phase 1 | Concept Design + Prototyping | 🟢 Done |
+| Phase 2 | Core Gameplay + Map Integration | 🟡 In Progress |
 | Phase 3 | UI Polish + Testing | ⬜ Pending |
 | Phase 4 | Beta Release + Feedback | ⬜ Pending |
 
@@ -66,14 +65,13 @@ In the world of WordleGO, every street corner could hide your next favorite word
 ## 💡 Inspiration
 
 - [Wordle](https://www.nytimes.com/games/wordle/index.html) – for its elegant simplicity and challenge design  
-- [Pokémon GO](https://pokemongolive.com) – for transforming movement into gameplay  
-- Our own desire to make games that get people **thinking**, **moving**, and **smiling**
+- [Pokémon GO](https://pokemongo.com/) – for transforming movement into gameplay
 
 ---
 
 ## 🤝 Acknowledgements
 
-Special thanks to our instructors, classmates, and open-source contributors who make mobile game development fun and accessible.
+Special thanks to our instructors, and open-source contributors who make mobile game development fun and accessible.
 
 ---
 
