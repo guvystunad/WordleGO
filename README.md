@@ -16,10 +16,10 @@ No more waiting 24 hours for your next puzzle — but also, no endless scrolling
 
 | Name | GitHub Handle | Role / Contribution |
 |------|----------------|----------------------|
-| Anna-Liisa Jõgi | @guvystunad | Project idea, requiremnets engineering  |
+| Anna-Liisa Jõgi | @guvystunad | Project idea, requirements engineering  |
 | Eliise Alop | @eliiseal | UI/UX Design, requirements engineering  |
-| Kairin Tammel | @kairintammel | IU/UX Design, composing README.md |
-| Kim Lilii Tamm | @kimlilii | Presentation and prototype creation |
+| Kairin Tammel | @kairintammel | Composing README.md, prototype creation |
+| Kim Lilii Tamm | @KimLiliiTamm | Presentation and prototype creation |
 
 ---
 
