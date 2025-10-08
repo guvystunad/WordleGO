@@ -16,10 +16,10 @@ No more waiting 24 hours for your next puzzle — but also, no endless scrolling
 
 | Name | GitHub Handle | Role / Contribution |
 |------|----------------|----------------------|
-| Anna-Liisa Jõgi | @guvystunad | [e.g., Project Lead / Android Developer] |
-| Eliise Alop | @eliiseal | [e.g., Game Logic & Backend Developer] |
-| Kairin Tammel | @kairintammel | [e.g., UI/UX Designer & Map Integration] |
-| Kim Lilii Tamm | [@github-handle] | [e.g., Gameplay Design & Word Puzzle Engine] |
+| Anna-Liisa Jõgi | @guvystunad | Project idea, requiremnets engineering  |
+| Eliise Alop | @eliiseal | UI/UX Design, requirements engineering  |
+| Kairin Tammel | @kairintammel | IU/UX Design, composing README.md |
+| Kim Lilii Tamm | @kimlilii | Presentation and prototype creation |
 
 ---
 
