@@ -1,24 +1,25 @@
 package ee.ut.cs.wordlego.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import ee.ut.cs.wordlego.ui.components.BackButton
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.zIndex
 
 @Composable
-fun MapScreen(navController: NavHostController, onLocationSelected: (LatLng) -> Unit) {
+fun MapScreen(
+    navController: NavHostController,
+    onLocationSelected: (LatLng) -> Unit,
+    userLocation: LatLng?
+) {
     val tartu = LatLng(58.3780, 26.7290)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(tartu, 13f)
@@ -32,9 +33,9 @@ fun MapScreen(navController: NavHostController, onLocationSelected: (LatLng) -> 
 
     Box(modifier = Modifier.fillMaxSize()) {
         GoogleMap(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             cameraPositionState = cameraPositionState,
-            properties = MapProperties(isMyLocationEnabled = true)
+            properties = MapProperties()
         ) {
             wordleLocations.forEach { location ->
                 Marker(
@@ -48,14 +49,12 @@ fun MapScreen(navController: NavHostController, onLocationSelected: (LatLng) -> 
             }
         }
 
-        IconButton(
-            onClick = { navController.popBackStack() },
+        BackButton(
+            navController = navController,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp)
-                .background(Color.White, RoundedCornerShape(8.dp))
-        ) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-        }
+                .zIndex(1f)
+        )
     }
 }

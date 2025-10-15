@@ -54,7 +54,9 @@ fun HomeScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = { navController.navigate("map") },
+                onClick = { navController.navigate("map") {
+                    launchSingleTop = true
+                } },
                 modifier = Modifier.width(200.dp).height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -69,7 +71,26 @@ fun HomeScreen(navController: NavHostController) {
             }
 
             Button(
-                onClick = { navController.navigate("stats") },
+                onClick = { navController.navigate("wordle") {
+                    launchSingleTop = true
+                } },
+                modifier = Modifier.width(200.dp).height(56.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+            ) {
+                Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Demo", fontSize = 18.sp)
+            }
+
+            Button(
+                onClick = { navController.navigate("stats") {
+                    launchSingleTop = true
+                } },
                 modifier = Modifier.width(200.dp).height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
