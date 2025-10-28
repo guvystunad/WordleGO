@@ -11,6 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
+import ee.ut.cs.wordlego.ui.screens.HomeScreen
+import ee.ut.cs.wordlego.ui.screens.MapScreen
+import ee.ut.cs.wordlego.ui.screens.WordleGameScreen
+import ee.ut.cs.wordlego.ui.screens.StatsScreen
+import ee.ut.cs.wordlego.ui.components.Key
+import ee.ut.cs.wordlego.ui.components.LetterState
+import ee.ut.cs.wordlego.ui.components.Keyboard
+
+
 import ee.ut.cs.wordlego.ui.theme.WordleGOTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import android.annotation.SuppressLint
@@ -42,6 +59,12 @@ class MainActivity : ComponentActivity() {
         } else {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            0
+        )
 
         setContent {
             WordleGOTheme {
