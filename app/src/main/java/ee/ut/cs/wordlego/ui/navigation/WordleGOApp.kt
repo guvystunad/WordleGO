@@ -12,7 +12,9 @@ import ee.ut.cs.wordlego.ui.screens.StatsScreen
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import android.content.Context
-
+import ee.ut.cs.wordlego.WordRepository.fetchRandomWord
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -21,9 +23,10 @@ fun WordleGOApp(userLocation: LatLng?, context: Context) {
     var gameState by remember {
         mutableStateOf<GameState?> (null)
     }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        val word = WordRepository.loadRandomWord(context)
+        val word = WordRepository.fetchRandomWord(5)
         gameState = GameState(targetWord = word)
     }
 
@@ -46,8 +49,11 @@ fun WordleGOApp(userLocation: LatLng?, context: Context) {
             MapScreen(
                 navController = navController,
                 onLocationSelected = { location ->
-                    gameState = GameState(targetWord = WordRepository.loadRandomWord(context))
-                    navController.navigate("wordle")
+                    scope.launch {
+                        val newWord = fetchRandomWord(5) ?: "SQUAD"
+                        gameState = GameState(targetWord = newWord)
+                        navController.navigate("wordle")
+                    }
                 },
                 userLocation = userLocation
             )

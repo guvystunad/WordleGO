@@ -19,7 +19,7 @@ fun getKeyColor(key: String, gameState: ee.ut.cs.wordlego.GameState): Color {
     gameState.guesses.forEach { guess ->
         guess.forEachIndexed { index, char ->
             if (char.toString() == key) {
-                val state = getLetterState(guess, index, gameState.targetWord)
+                val state = getLetterState(guess, index, gameState.targetWord ?: "SQUAD")
                 if (bestState == null ||
                     (state == LetterState.CORRECT) ||
                     (state == LetterState.PRESENT && bestState != LetterState.CORRECT)
