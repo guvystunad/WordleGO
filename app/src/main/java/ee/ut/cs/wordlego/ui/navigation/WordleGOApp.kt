@@ -15,6 +15,12 @@ import android.content.Context
 import ee.ut.cs.wordlego.WordRepository.fetchRandomWord
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.Alignment
+
 
 
 @Composable
@@ -25,11 +31,7 @@ fun WordleGOApp(userLocation: LatLng?, context: Context) {
     }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
-        val word = WordRepository.fetchRandomWord(5)
-        gameState = GameState(targetWord = word)
-    }
-
+//camera state for google maps
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
             userLocation ?: LatLng(59.437, 24.7536),
@@ -37,10 +39,7 @@ fun WordleGOApp(userLocation: LatLng?, context: Context) {
 
     }
 
-    if (gameState == null) {
-        return
-    }
-
+//Navigation host managing all screens
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             HomeScreen(navController)
@@ -48,23 +47,40 @@ fun WordleGOApp(userLocation: LatLng?, context: Context) {
         composable("map") {
             MapScreen(
                 navController = navController,
-                onLocationSelected = { location ->
-                    scope.launch {
-                        val newWord = fetchRandomWord(5) ?: "SQUAD"
-                        gameState = GameState(targetWord = newWord)
-                        navController.navigate("wordle")
-                    }
+                onLocationSelected = { locationName ->
+                    navController.navigate("wordle/$locationName")
                 },
                 userLocation = userLocation
             )
         }
-        composable("wordle") {
-            WordleGameScreen(
-                navController,
-                gameState = gameState!!,
-                onGameStateChange = { gameState = it }
-            )
+       //wordle game screen
+        composable("wordle/{locationName}") { backStackEntry ->
+            //Retrieve location name
+            val locationName = backStackEntry.arguments?.getString("locationName") ?: "delta"
+            //Local game state for this screen
+            var localGameState by remember { mutableStateOf<GameState?>(null) }
+
+            LaunchedEffect(locationName) {
+                val word = fetchRandomWord(context, locationName) ?: "SQUAD"
+                localGameState = GameState(targetWord = word)
+            }
+
+            // Show loading while word is fetched
+            if (localGameState == null) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                //show wordle game screen when word is ready
+                WordleGameScreen(
+                    navController = navController,
+                    gameState = localGameState!!,
+                    onGameStateChange = { gameState = it },
+                    locationName = locationName
+                )
+            }
         }
+
         composable("stats") {
             StatsScreen(navController)
         }

@@ -69,9 +69,9 @@ fun HomeScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Play", fontSize = 18.sp)
             }
-
+// Hardcoded Demo for wordle game
             Button(
-                onClick = { navController.navigate("wordle") {
+                onClick = { navController.navigate("wordle/delta") {
                     launchSingleTop = true
                 } },
                 modifier = Modifier.width(200.dp).height(56.dp),

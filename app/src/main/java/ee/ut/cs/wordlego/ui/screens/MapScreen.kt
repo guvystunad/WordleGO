@@ -17,70 +17,85 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlin.math.*
 import androidx.compose.ui.graphics.Color
 
+data class WordlePoint(
+    val name: String,
+    val position: LatLng
+)
 @Composable
 fun MapScreen(
     navController: NavHostController,
-    onLocationSelected: (LatLng) -> Unit,
+    onLocationSelected: (String) -> Unit,
     userLocation: LatLng?
 ) {
+    //Default camera position centered on Tartu
     val tartu = LatLng(58.3780, 26.7290)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(tartu, 13f)
     }
-
+    //if user's location is known zoom in on them
     userLocation?.let {
         cameraPositionState.position = CameraPosition.fromLatLngZoom(it, 17f)
     }
-
+    //list of map points with names and coordinates
     val wordleLocations = listOf(
-        LatLng(58.3780, 26.7290),
-        LatLng(58.3850, 26.7200),
-        LatLng(58.3720, 26.7400)
+        WordlePoint(
+            name = "delta",
+            position = LatLng(58.385059, 26.725106)
+        ),
+        WordlePoint(
+            name = "peahoone",
+            position = LatLng(58.380871617586784, 26.71993282910922)
+        )
     )
 
+
     Box(modifier = Modifier.fillMaxSize()) {
+        // Google Map composable
         GoogleMap(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
             properties = MapProperties(
                 isMyLocationEnabled = true
             )
         ) {
-            wordleLocations.forEach { location ->
+            //Iterate through map points
+            wordleLocations.forEach { point ->
+
+                val location = point.position
+                //calvulate the distance from user to the marker
                 val distanceMeters = userLocation?.let { haversineDistance(it, location) } ?: Double.MAX_VALUE
+                val isClose = distanceMeters < 300
 
-                // Define proximity thresholds
-                val isClose = distanceMeters < 300 // within 300 meters → bigger marker
+                // change marker colour when user is close
+                val hue = if (isClose) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_ORANGE
 
-                // Adjust color and scale based on distance
-                val hue = BitmapDescriptorFactory.HUE_ORANGE
-                val scale = if (isClose) 1.3f else 0.8f
-
+                //place marker on the map
                 Marker(
-                    state = MarkerState(position = location),
-                    title = "Wordle Location",
+                    state = MarkerState(position = point.position),
+                    title = point.name,
                     icon = BitmapDescriptorFactory.defaultMarker(hue),
                     onClick = {
-                        onLocationSelected(location)
+                        // allow player to select location only when close
+                        if (isClose) {
+                            onLocationSelected(point.name)   // <-- SIIT LÄHEB “delta”
+                        }
                         true
-                    },
-                    alpha = 1f,
-                    // Trick: use `anchor` + scale control (Compose Map doesn’t support size directly)
+                    }
                 )
 
-                // Optional: could add a circle overlay around close markers
                 if (isClose) {
                     Circle(
                         center = location,
-                        radius = 40.0, // small highlight
+                        radius = 40.0,
                         strokeColor = Color(0x80ffe31e),
                         fillColor = Color(0x40ffff8b),
                         strokeWidth = 2f
                     )
                 }
             }
-        }
 
+        }
+        // back button over the map
         BackButton(
             navController = navController,
             modifier = Modifier

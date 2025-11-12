@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -25,23 +26,22 @@ import ee.ut.cs.wordlego.WordRepository.fetchRandomWord
 fun WordleGameScreen(
     navController: NavHostController,
     gameState: GameState,
-    onGameStateChange: (GameState) -> Unit
+    onGameStateChange: (GameState) -> Unit,
+    locationName: String
 ) {
     var currentInput by remember { mutableStateOf("") }
-    var isLoading by remember {mutableStateOf(false)}
-
+    var isLoading by remember {mutableStateOf(true)}
+    val context = LocalContext.current
+    var gameState by remember { mutableStateOf(gameState) }
     LaunchedEffect(Unit) {
-        if (gameState.targetWord.isNullOrEmpty()) {
-            isLoading = true
-            val newWord = fetchRandomWord(5) ?: "SQUAD"
-            onGameStateChange(
-                gameState.copy(targetWord = newWord.lowercase())
-            )
-            isLoading = false
-        }
+        val newWord = fetchRandomWord(context, locationName) ?: "SQUAD"
+        gameState = (gameState.copy(targetWord = newWord))
+        isLoading = false
     }
 
+//Main container for the screen
     Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        //show loading while fetching the word
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else {
@@ -69,7 +69,7 @@ fun WordleGameScreen(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-
+//Game board
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -85,6 +85,7 @@ fun WordleGameScreen(
                             repeat(5) { col ->
                                 val guess = gameState.guesses.getOrNull(row)
                                 val letter = guess?.getOrNull(col)?.toString() ?: ""
+                                //determine background color based on letter state
                                 val bgColor = if (guess != null) {
                                     when (getLetterState(guess, col, gameState.targetWord ?: "SQUAD")) {
                                         LetterState.CORRECT -> Color(0xFF6AAA64)
@@ -96,7 +97,7 @@ fun WordleGameScreen(
                                 } else {
                                     Color.White
                                 }
-
+// individual letter box
                                 Box(
                                     modifier = Modifier
                                         .size(60.dp)
@@ -119,41 +120,51 @@ fun WordleGameScreen(
                         }
                     }
                 }
-
+// keyboard composable
                 Keyboard(
                     onKeyPress = { key ->
                         if (!gameState.isComplete) {
                             when (key) {
                                 "ENTER" -> {
+                                    //submit the guess if 5 letters are typed
                                     if (currentInput.length == 5) {
                                         val newGuesses = gameState.guesses.toMutableList()
                                         newGuesses.add(currentInput)
-                                        val isWon = currentInput == gameState.targetWord
-                                        val isComplete = isWon || newGuesses.size >= 6
-                                        onGameStateChange(
-                                            gameState.copy(
-                                                guesses = newGuesses,
-                                                isComplete = isComplete,
-                                                isWon = isWon
-                                            )
+
+                                        val isWon = currentInput.equals(
+                                            gameState.targetWord,
+                                            ignoreCase = true
                                         )
+                                        val isComplete = isWon || newGuesses.size >= 6
+                                        //update game state
+
+                                        gameState = gameState.copy(
+                                            guesses = newGuesses,
+                                            isComplete = isComplete,
+                                            isWon = isWon
+                                        )
+                                        //reset current input
                                         currentInput = ""
                                         if (isComplete) navController.navigate("stats")
                                     }
                                 }
 
                                 "⌫" -> {
+                                    //delete last letter
                                     if (currentInput.isNotEmpty()) currentInput =
                                         currentInput.dropLast(1)
                                 }
 
-                                else -> {
-                                    if (currentInput.length < 5) currentInput += key
-                                }
+
+                            else -> {
+                                // add letter if space is available
+                                if (currentInput.length < 5) currentInput += key
                             }
                         }
+                        }
                     },
-                    gameState = gameState
+                    gameState= gameState
+
                 )
             }
         }
